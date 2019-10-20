@@ -1,15 +1,15 @@
 import Sequelize, { Model } from 'sequelize';
 
-class User extends Model {
+class Student extends Model {
   static init(sequelize) {
     super.init(
       {
         // so colunas inseridas no usuario
         name: Sequelize.STRING,
         email: Sequelize.STRING,
-        idade: Sequelize.INTEGER,
-        peso: Sequelize.FLOAT,
-        altura: Sequelize.FLOAT,
+        age: Sequelize.INTEGER,
+        weight: Sequelize.FLOAT,
+        height: Sequelize.FLOAT,
       },
       {
         sequelize,
@@ -21,4 +21,4 @@ class User extends Model {
     // funciona de forma automatica baseado em ações no model
   }
 }
-export default User;
+export default Student;

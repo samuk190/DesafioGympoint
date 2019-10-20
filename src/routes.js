@@ -6,11 +6,11 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 routes.use(authMiddleware);
-routes.post('/users', UserController.store);
+
 routes.post('/students', StudentController.store);
+routes.put('/students/:id', StudentController.update);
 routes.post('/sessions', SessionController.store);
 
-routes.post('/students', StudentController.update);
 routes.put('/users', UserController.update);
 
 export default routes;

@@ -12,6 +12,7 @@ class StudentController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
+
     const StudentExists = await Student.findOne({
       where: { email: req.body.email },
     });
@@ -22,17 +23,18 @@ class StudentController {
     // mesmo face de middleware
     // const user = await User.create(req.body); // todos os dados
     // retornar para o front end
-    const { id, name, email, idade, peso, altura } = await Student.create(
+    const { id, name, email, age, weight, height } = await Student.create(
       req.body
     );
+
     // cadastro
     return res.json({
       id,
       name,
       email,
-      idade,
-      peso,
-      altura,
+      age,
+      weight,
+      height,
     });
   }
 
@@ -45,24 +47,30 @@ class StudentController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const { email, id } = req.body;
-    const student = await Student.findByPk(id);
+
+    const userId = req.params.id;
+    const { email } = req.body;
+    const student = await Student.findByPk(userId);
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exist!' });
+    }
+
     if (email !== student.email) {
-      const userExists = await Student.findOne({
+      const studentExists = await Student.findOne({
         where: { email },
       });
-      if (userExists) {
+      if (studentExists) {
         return res.status(400).json({ error: 'Email already Exists' });
       }
     }
 
-    const { name, idade, peso, altura } = await student.update(req.body);
+    const { name, age, weight, height } = await student.update(req.body);
     return res.json({
-      id,
+      userId,
       name,
-      idade,
-      peso,
-      altura,
+      age,
+      weight,
+      height,
       email,
     });
   }
